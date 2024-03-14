@@ -2,6 +2,7 @@ from pyrogram import Client, filters
 from pyrogram.errors.exceptions.bad_request_400 import UserNotParticipant
 from pyrogram.types import ChatPermissions
 
+
 @Client.on_callback_query(filters.regex(pattern=r"unblock"))
 async def ublock(b, cb):
     user_id = int(cb.data.strip().split("|")[1])
@@ -29,20 +30,22 @@ async def unmute(b, cb):
             status = True
         else:
             status = False
-    except UserNotParticipant as e:
+    except UserNotParticipant:
         status = False
     if status:
         try:
             await b.restrict_chat_member(
-                 cb.message.chat.id,
-                 user_id,
-                 ChatPermissions(
-                     can_send_messages=True,
-                     can_send_media_messages=True,
-                 )
+                cb.message.chat.id,
+                user_id,
+                ChatPermissions(
+                    can_send_messages=True,
+                    can_send_media_messages=True,
+                ),
             )
             await cb.message.delete()
         except Exception as e:
             await cb.answer("Errror: " + str(e))
     else:
-        await cb.answer("Anda belum bergabung/subscribe channel tertaut!", show_alert=True)
+        await cb.answer(
+            "Anda belum bergabung/subscribe channel tertaut!", show_alert=True
+        )

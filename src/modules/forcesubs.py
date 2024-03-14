@@ -4,6 +4,7 @@ from pyrogram.types import ChatPermissions, InlineKeyboardButton, InlineKeyboard
 
 from data_json import Data
 
+
 @Client.on_message(filters.group)
 async def force_subs(_client, _message):
     user_id = _message.from_user.id
@@ -14,12 +15,14 @@ async def force_subs(_client, _message):
             TARGET_GROUP_ID = i.split("|")[1]
     if _message.chat.id == int(TARGET_GROUP_ID):
         try:
-            get_user_info = await _client.get_chat_member(int(TARGET_CHANNEL_ID), user_id)
+            get_user_info = await _client.get_chat_member(
+                int(TARGET_CHANNEL_ID), user_id
+            )
             if get_user_info.is_member is None:
                 status = True
             else:
                 status = False
-        except UserNotParticipant as e:
+        except UserNotParticipant:
             status = False
         if not status:
             try:
@@ -51,9 +54,9 @@ Group ini mengaktifkan fitur force subs, Kamu harus mengikuti channel berikut ag
                     ),
                 )
                 await _client.restrict_chat_member(
-                     int(TARGET_GROUP_ID),
-                     user_id,
-                     ChatPermissions(can_send_messages=False)
+                    int(TARGET_GROUP_ID),
+                    user_id,
+                    ChatPermissions(can_send_messages=False),
                 )
             except Exception as e:
                 print(e)
