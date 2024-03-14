@@ -7,8 +7,8 @@ from pyrogram.types import ChatPermissions
 async def ublock(b, cb):
     user_id = int(cb.data.strip().split("|")[1])
     TARGET_CHANNEL_ID = int(cb.data.strip().split("|")[2])
-    get_user_info = await b.get_chat_member(TARGET_CHANNEL_ID, cb.from_user.id)
     try:
+        get_user_info = await b.get_chat_member(TARGET_CHANNEL_ID, cb.from_user.id)
         if get_user_info.privileges.can_restrict_members:
             await b.unban_chat_member(int(TARGET_CHANNEL_ID), user_id)
             await cb.message.edit(f"{user_id} Dihapus dari daftar blokir")
