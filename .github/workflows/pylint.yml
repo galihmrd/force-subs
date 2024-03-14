@@ -38,7 +38,7 @@ jobs:
 
         run: |
 
-          autopep8 --verbose --in-place --recursive --aggressive --aggressive --ignore=W605. lib/*.py
+          autopep8 --verbose --in-place --recursive --aggressive --aggressive --ignore=W605. src/*.py
 
       - name: Remove unused imports and variables
 
