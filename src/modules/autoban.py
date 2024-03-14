@@ -1,8 +1,7 @@
-from pyrogram import Client, filters
+from pyrogram import Client
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from data_json import Data
-
 
 
 @Client.on_chat_member_updated()
@@ -17,7 +16,7 @@ async def leaveMember(_client, _message):
             bot_id = await _client.get_me()
             if _message.old_chat_member.restricted_by.id == bot_id.id:
                 return False
-        except AttributeError as e:
+        except AttributeError:
             try:
                 await _client.send_message(
                     int(TARGET_GROUP_ID),

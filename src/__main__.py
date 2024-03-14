@@ -1,6 +1,6 @@
-from config import API_HASH, API_ID, BOT_TOKEN
 from pyrogram import Client, idle
 
+from config import API_HASH, API_ID, BOT_TOKEN
 
 bot = Client(
     ":memory:",
