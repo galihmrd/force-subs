@@ -1,5 +1,6 @@
 from pyrogram import Client, filters
-
+from pyrogram.errors.exceptions.bad_request_400 import UserNotParticipant
+from pyrogram.types import ChatPermissions
 
 @Client.on_callback_query(filters.regex(pattern=r"unblock"))
 async def ublock(b, cb):
@@ -16,3 +17,32 @@ async def ublock(b, cb):
             )
     except AttributeError:
         await cb.answer("Anda harus jadi admin untuk melakukan ini!", show_alert=True)
+
+
+@Client.on_callback_query(filters.regex(pattern=r"unmute"))
+async def unmute(b, cb):
+    user_id = int(cb.data.strip().split("|")[1])
+    TARGET_CHANNEL_ID = int(cb.data.strip().split("|")[2])
+    try:
+        get_user_info = await b.get_chat_member(TARGET_CHANNEL_ID, user_id)
+        if get_user_info.is_member is None:
+            status = True
+        else:
+            status = False
+    except UserNotParticipant as e:
+        status = False
+    if status:
+        try:
+            await b.restrict_chat_member(
+                 cb.message.chat.id,
+                 user_id,
+                 ChatPermissions(
+                     can_send_messages=True,
+                     can_send_media_messages=True,
+                 )
+            )
+            await cb.message.delete()
+        except Exception as e:
+            await cb.answer("Errror: " + str(e))
+    else:
+        await cb.answer("Anda belum bergabung/subscribe channel tertaut!", show_alert=True)

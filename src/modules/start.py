@@ -17,4 +17,9 @@ async def get_forwarded_info(_client, _message):
 @Client.on_message(filters.command("add"))
 async def add_channel_autoban(_client, _message):
     Data.write_data(_message.command[1], "data_autoban_id")
-    await message.reply("Berhasil ditambahkan!")
+    await _message.reply("Berhasil ditambahkan!")
+
+@Client.on_message(filters.command("fsubs"))
+async def add_channel_forcesubs(_client, _message):
+    Data.write_data(_message.command[1], "data_forcesubs_id")
+    await _message.reply("Berhasil ditambahkan!")
