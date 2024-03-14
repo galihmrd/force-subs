@@ -44,8 +44,7 @@ async def force_subs(_client, _message):
             if i.endswith(str(_message.chat.id)):
                 TARGET_CHANNEL_ID = i.split("|")[0]
                 TARGET_GROUP_ID = i.split("|")[1]
-        get_user_info = await b.get_chat_member(_message.chat.id, user_id)
-        if not get_user_info.privileges.can_restrict_members:
+        if _message.chat.id == int(TARGET_GROUP_ID):
             try:
                 get_user_info = await _client.get_chat_member(
                     int(TARGET_CHANNEL_ID), user_id
