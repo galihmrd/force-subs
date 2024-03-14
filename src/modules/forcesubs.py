@@ -44,7 +44,8 @@ async def force_subs(_client, _message):
             if i.endswith(str(_message.chat.id)):
                 TARGET_CHANNEL_ID = i.split("|")[0]
                 TARGET_GROUP_ID = i.split("|")[1]
-        if _message.chat.id == int(TARGET_GROUP_ID):
+        get_user_info = await b.get_chat_member(_message.chat.id, user_id)
+        if not get_user_info.privileges.can_restrict_members:
             try:
                 get_user_info = await _client.get_chat_member(
                     int(TARGET_CHANNEL_ID), user_id
@@ -60,13 +61,11 @@ async def force_subs(_client, _message):
                     get_channel_info = await _client.get_chat(TARGET_CHANNEL_ID)
                     await _message.reply(
                         f"""
-    **Hai {_message.from_user.mention}**
-    
-    **Informasi:**
+**Hai {_message.from_user.mention}**
+**Informasi:**
     > **ID:** `{_message.from_user.id}`
     > **Username:** @{_message.from_user.username}
-    
-    Group ini mengaktifkan fitur force subs, Kamu harus mengikuti channel berikut agar diizinkan untuk berbicara.
+Group ini mengaktifkan fitur force subs, Kamu harus mengikuti channel berikut agar diizinkan untuk berbicara.
                         """,
                         reply_markup=InlineKeyboardMarkup(
                             [
