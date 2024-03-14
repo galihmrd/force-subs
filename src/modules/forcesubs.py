@@ -27,7 +27,6 @@ async def force_subs(_client, _message):
         if not status:
             try:
                 get_channel_info = await _client.get_chat(TARGET_CHANNEL_ID)
-                print(get_channel_info)
                 await _message.reply(
                     f"""
 **Hai {_message.from_user.mention}**
@@ -59,4 +58,4 @@ Group ini mengaktifkan fitur force subs, Kamu harus mengikuti channel berikut ag
                     ChatPermissions(can_send_messages=False),
                 )
             except Exception as e:
-                print(e)
+                pass
