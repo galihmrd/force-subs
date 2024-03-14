@@ -88,5 +88,5 @@ async def force_subs(_client, _message):
                         user_id,
                         ChatPermissions(can_send_messages=False),
                     )
-                except Exception as e:
+                except Exception:
                     pass

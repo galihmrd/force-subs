@@ -37,7 +37,7 @@ async def leaveMember(_client, _message):
                     await _client.ban_chat_member(
                         int(TARGET_CHANNEL_ID), _message.from_user.id
                     )
-                except AttributeError as e:
+                except AttributeError:
                     pass
     except UnboundLocalError:
         pass
