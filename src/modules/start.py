@@ -2,8 +2,8 @@ from pyrogram import Client, filters
 
 from config import SUDO_USERS
 from data_json import Data
-
 from src.modules.b64tools import decode
+
 
 @Client.on_message(filters.forwarded & filters.private)
 async def get_forwarded_info(_client, _message):
