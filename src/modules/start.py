@@ -39,29 +39,29 @@ async def authorize(_client, _message):
 
 @Client.on_message(filters.command(["autoban", "fsubs"]))
 async def controler(_client, _message):
-            command_value = " ".join(_message.command[1:])
-            if command_value.startswith("-"):
-                data_to_write = command_value
-                if _message.command[0] == "autoban" and "off" not in command_value:
-                    Data.write_data(data_to_write, "data_autoban_id")
-                elif _message.command[0] == "fsubs" and not "off" in command_value:
-                    Data.write_data(data_to_write, "data_forcesubs_id")
-                return await _message.reply("Berhasil ditambahkan!")
-            elif "off" in command_value:
-                if _message.command[0] == "autoban":
-                    get_data_autoban = Data.get_data(
-                        command_value.split("off_")[1], "data_autoban_id"
-                    )
-                    for data in get_data_autoban:
-                        if data.endswith(command_value.split("off_")[1].split("|")[1]):
-                            Data.del_data(data, "data_autoban_id")
-                    return await _message.reply("Auto banned dimatikan!")
-                elif _message.command[0] == "fsubs":
-                    get_data_autoban = Data.get_data(
-                        command_value.split("off_")[1], "data_forcesubs_id"
-                    )
-                    print(command_value.split("off_")[1].split("|")[1])
-                    for data in get_data_autoban:
-                        if data.endswith(command_value.split("off_")[1].split("|")[1]):
-                            Data.del_data(data, "data_forcesubs_id")
-                        return await _message.reply("Forcesubs dimatikan!")
+    command_value = " ".join(_message.command[1:])
+    if command_value.startswith("-"):
+        data_to_write = command_value
+        if _message.command[0] == "autoban" and "off" not in command_value:
+            Data.write_data(data_to_write, "data_autoban_id")
+        elif _message.command[0] == "fsubs" and not "off" in command_value:
+            Data.write_data(data_to_write, "data_forcesubs_id")
+        return await _message.reply("Berhasil ditambahkan!")
+    elif "off" in command_value:
+        if _message.command[0] == "autoban":
+            get_data_autoban = Data.get_data(
+                command_value.split("off_")[1], "data_autoban_id"
+            )
+            for data in get_data_autoban:
+                if data.endswith(command_value.split("off_")[1].split("|")[1]):
+                    Data.del_data(data, "data_autoban_id")
+            return await _message.reply("Auto banned dimatikan!")
+        elif _message.command[0] == "fsubs":
+            get_data_autoban = Data.get_data(
+                command_value.split("off_")[1], "data_forcesubs_id"
+            )
+            print(command_value.split("off_")[1].split("|")[1])
+            for data in get_data_autoban:
+                if data.endswith(command_value.split("off_")[1].split("|")[1]):
+                    Data.del_data(data, "data_forcesubs_id")
+                return await _message.reply("Forcesubs dimatikan!")
