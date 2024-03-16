@@ -1,4 +1,5 @@
-from pyrogram import Client, idle
+from pyromod import Client
+from pyrogram import idle
 
 from config import API_HASH, API_ID, BOT_TOKEN
 

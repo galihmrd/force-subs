@@ -1,4 +1,4 @@
-from pyrogram import Client
+from pyromod import Client
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from data_json import Data
