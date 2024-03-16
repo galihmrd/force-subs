@@ -39,13 +39,16 @@ async def controler(_client, _message):
     command = text_decoded.split(" ")[0]
     command_value = text_decoded.split(" ")[1]
     print(command_value)
-    get_user_info = await _client.get_chat_member(int(command_value.split("|")[1]), _message.from_user.id)
+    get_user_info = await _client.get_chat_member(
+        int(command_value.split("|")[1]), _message.from_user.id
+    )
     print(get_user_info.status)
-    if (get_user_info.status == ChatMemberStatus.MEMBER or
-        get_user_info.status == ChatMemberStatus.RESTRICTED or
-        get_user_info.status == ChatMemberStatus.LEFT or
-        get_user_info.status == ChatMemberStatus.BANNED
-        ):
+    if (
+        get_user_info.status == ChatMemberStatus.MEMBER
+        or get_user_info.status == ChatMemberStatus.RESTRICTED
+        or get_user_info.status == ChatMemberStatus.LEFT
+        or get_user_info.status == ChatMemberStatus.BANNED
+    ):
         return await _message.reply("Hanya admin yang dapat mengeksekusi perintah ini!")
     if command_value.startswith("-"):
         data_to_write = command_value
