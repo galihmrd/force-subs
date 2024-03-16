@@ -30,6 +30,8 @@ async def ublock(b, cb):
 async def unmute(b, cb):
     user_id = int(cb.data.strip().split("|")[1])
     TARGET_CHANNEL_ID = int(cb.data.strip().split("|")[2])
+    if cb.from_user.id != int(user_id):
+        return await cb.answer("Tugas ini bukan untuk anda!", show_alert=True)
     try:
         get_user_info = await b.get_chat_member(TARGET_CHANNEL_ID, user_id)
         if get_user_info.is_member is None:
@@ -40,6 +42,7 @@ async def unmute(b, cb):
         status = False
     if status:
         try:
+            get_user_info = await b.get_users(user_id)
             await b.restrict_chat_member(
                 cb.message.chat.id,
                 user_id,
@@ -48,10 +51,10 @@ async def unmute(b, cb):
                     can_send_media_messages=True,
                 ),
             )
-            await cb.message.delete()
+            await cb.message.edit(f"__{get_user_info.mention} Kini dapat berbicara!__")
         except Exception as e:
             await cb.answer("Errror: " + str(e))
     else:
         await cb.answer(
-            "Anda belum bergabung/subscribe channel tertaut!", show_alert=True
+            "Subscribe channel tertaut terlebih dahulu!", show_alert=True
         )
