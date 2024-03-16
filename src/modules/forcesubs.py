@@ -18,19 +18,25 @@ async def force_subs(_client, _message):
                 data_to_write = f"{command_value}|{_message.chat.id}"
             elif command_value.startswith("@"):
                 try:
-                    get_channel_info = await _client.get_chat(command_value.split("@")[1])
+                    get_channel_info = await _client.get_chat(
+                        command_value.split("@")[1]
+                    )
                     data_to_write = f"{get_channel_info.id}|{_message.chat.id}"
                 except Exception as e:
                     return await _message.reply("**Error:**" + str(e))
             elif command_value == "off":
                 if _message.text.startswith("/autoban"):
-                    get_data_autoban = Data.get_data(_message.chat.id, "data_autoban_id")
+                    get_data_autoban = Data.get_data(
+                        _message.chat.id, "data_autoban_id"
+                    )
                     for data in get_data_autoban:
                         if data.endswith(str(_message.chat.id)):
                             Data.del_data(data, "data_autoban_id")
                     return await _message.reply("Auto banned dimatikan!")
                 elif _message.text.startswith("/fsubs"):
-                    get_data_autoban = Data.get_data(_message.chat.id, "data_forcesubs_id")
+                    get_data_autoban = Data.get_data(
+                        _message.chat.id, "data_forcesubs_id"
+                    )
                     for data in get_data_autoban:
                         if data.endswith(str(_message.chat.id)):
                             Data.del_data(data, "data_forcesubs_id")
@@ -60,7 +66,9 @@ async def force_subs(_client, _message):
                     status = False
                 if not status:
                     try:
-                        get_member = await _client.get_chat_member(_message.chat.id, _message.from_user.id)
+                        get_member = await _client.get_chat_member(
+                            _message.chat.id, _message.from_user.id
+                        )
                         if get_member.status == ChatMemberStatus.MEMBER:
                             get_channel_info = await _client.get_chat(TARGET_CHANNEL_ID)
                             await _message.reply(

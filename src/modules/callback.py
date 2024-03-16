@@ -55,6 +55,4 @@ async def unmute(b, cb):
         except Exception as e:
             await cb.answer("Errror: " + str(e))
     else:
-        await cb.answer(
-            "Subscribe channel tertaut terlebih dahulu!", show_alert=True
-        )
+        await cb.answer("Subscribe channel tertaut terlebih dahulu!", show_alert=True)

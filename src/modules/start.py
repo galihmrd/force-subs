@@ -1,7 +1,7 @@
 from pyrogram import Client, filters
 
-from data_json import Data
 from config import SUDO_USERS
+from data_json import Data
 
 
 @Client.on_message(filters.command("start"))
