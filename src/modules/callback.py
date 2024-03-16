@@ -10,8 +10,9 @@ async def ublock(b, cb):
     try:
         get_user_info = await b.get_chat_member(TARGET_CHANNEL_ID, cb.from_user.id)
         if get_user_info.privileges.can_restrict_members:
+            get_user_info = await b.get_users(user_id)
             await b.unban_chat_member(int(TARGET_CHANNEL_ID), user_id)
-            await cb.message.edit(f"{user_id} Dihapus dari daftar blokir")
+            await cb.message.edit(f"{get_user_info.mention} (`{user_id}`) Dihapus dari daftar blokir.")
         else:
             await cb.answer(
                 "Anda kekurangan izin: can_restrict_members", show_alert=True

@@ -21,13 +21,16 @@ async def leaveMember(_client, _message):
                 try:
                     await _client.send_message(
                         int(TARGET_GROUP_ID),
-                        f"{_message.old_chat_member.user.mention} Telah diblokir karena keluar dari channel.\n"
-                        "Klik **Unblock** untuk membuka blokir",
+                        f"""
+**#AUTOBAN**
+{_message.old_chat_member.user.mention} (`{_message.old_chat_member.user.id}`) diblokir karena meninggalkan channel
+klik tombol dibawah ini untuk membuka blokir.
+                        """,
                         reply_markup=InlineKeyboardMarkup(
                             [
                                 [
                                     InlineKeyboardButton(
-                                        "Unblock",
+                                        "Buka Blokir",
                                         callback_data=f"unblock|{_message.from_user.id}|{TARGET_CHANNEL_ID}",
                                     ),
                                 ],
