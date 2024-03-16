@@ -20,7 +20,7 @@ async def force_subs(_client, _message):
             data_coded = encode(f"fsubs {get_chat_info.id}|{_message.chat.id}")
             type = "mengaktifkan"
         elif _message.text.split("/fsubs ")[1] == "off":
-            data_coded = encode(f"fsubs off_{_message.chat.id}|")
+            data_coded = encode(f"fsubs off_{_message.chat.id}|{_message.chat.id}")
             type = "menonaktifkan"
         return await _message.reply(
             f"Eksekusi tombol ini untuk {type} melalui chat pribadi",
@@ -44,7 +44,7 @@ async def force_subs(_client, _message):
             data_coded = encode(f"autoban {get_chat_info.id}|{_message.chat.id}")
             type = "mengaktifkan"
         elif _message.text.split("/autoban ")[1] == "off":
-            data_coded = encode(f"autoban off_{_message.chat.id}|")
+            data_coded = encode(f"autoban off_{_message.chat.id}|{_message.chat.id}")
             type = "menonaktifkan"
         return await _message.reply(
             f"Eksekusi tombol ini untuk {type} melalui chat pribadi",
