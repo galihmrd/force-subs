@@ -5,10 +5,61 @@ from pyrogram.types import ChatPermissions, InlineKeyboardButton, InlineKeyboard
 from pyromod import Client
 
 from data_json import Data
+from src.modules.b64tools import encode
+from config import BOT_USERNAME
 
 
 @Client.on_message(filters.group)
 async def force_subs(_client, _message):
+    if _message.text.startswith("/fsubs"):
+        if _message.text.split("/fsubs ")[1].startswith("-"):
+            data_coded = encode(f"fsubs {_message.text.split('/fsubs ')[1]}|{_message.chat.id}")
+            type = "mengaktifkan"
+        elif _message.text.split(f"/fsubs ")[1].startswith("@"):
+            get_chat_info = await _client.get_chat(_message.text.split('/fsubs ')[1])
+            data_coded = encode(f"fsubs {get_chat_info.id}|{_message.chat.id}")
+            type = "mengaktifkan"
+        elif _message.text.split("/fsubs ")[1] == "off":
+            data_coded = encode(f"fsubs off_{_message.chat.id}|")
+            type = "menonaktifkan"
+        return await _message.reply(
+            f"Eksekusi tombol ini untuk {type} melalui chat pribadi",
+            reply_markup=InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(
+                            type,
+                            url=f"http://t.me/{BOT_USERNAME}?start={data_coded}",
+                        ),
+                    ],
+                ],
+            ),
+        )
+    elif _message.text.startswith("/autoban"):
+        if _message.text.split("/autoban ")[1].startswith("-"):
+            data_coded = encode(f"autoban {_message.text.split('/autoban ')[1]}|{_message.chat.id}")
+            type = "mengaktifkan"
+        elif _message.text.split(f"/autoban ")[1].startswith("@"):
+            get_chat_info = await _client.get_chat(_message.text.split('/autoban ')[1])
+            data_coded = encode(f"autoban {get_chat_info.id}|{_message.chat.id}")
+            type = "mengaktifkan"
+        elif _message.text.split("/autoban ")[1] == "off":
+            data_coded = encode(f"autoban off_{_message.chat.id}|")
+            type = "menonaktifkan"
+        return await _message.reply(
+            f"Eksekusi tombol ini untuk {type} melalui chat pribadi",
+            reply_markup=InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(
+                            type,
+                            url=f"http://t.me/{BOT_USERNAME}?start={data_coded}",
+                        ),
+                    ],
+                ],
+            ),
+        )
+
     user_id = _message.from_user.id
     get_data_forcesubs = Data.get_data(_message.chat.id, "data_forcesubs_id")
     for i in get_data_forcesubs:

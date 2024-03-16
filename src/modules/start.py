@@ -3,12 +3,7 @@ from pyrogram import Client, filters
 from config import SUDO_USERS
 from data_json import Data
 
-
-@Client.on_message(filters.command("start"))
-async def start(_client, _message):
-    await _message.reply("Hello i'm alive!")
-    Data.write_data(_message.from_user.mention, "user_id")
-
+from src.modules.b64tools import decode
 
 @Client.on_message(filters.forwarded & filters.private)
 async def get_forwarded_info(_client, _message):
@@ -37,31 +32,32 @@ async def authorize(_client, _message):
         return await _message.reply("Anda tidak memiliki izin!")
 
 
-@Client.on_message(filters.command(["autoban", "fsubs"]))
+@Client.on_message(filters.command("start"))
 async def controler(_client, _message):
-    command_value = " ".join(_message.command[1:])
+    text_decoded = decode(_message.text.split("/start ")[1])
+    command = text_decoded.split(" ")[0]
+    command_value = text_decoded.split(" ")[1]
     if command_value.startswith("-"):
         data_to_write = command_value
-        if _message.command[0] == "autoban" and "off" not in command_value:
+        if command == "autoban" and "off" not in command_value:
             Data.write_data(data_to_write, "data_autoban_id")
-        elif _message.command[0] == "fsubs" and not "off" in command_value:
+        elif command == "fsubs" and not "off" in command_value:
             Data.write_data(data_to_write, "data_forcesubs_id")
         return await _message.reply("Berhasil ditambahkan!")
     elif "off" in command_value:
-        if _message.command[0] == "autoban":
+        if command == "autoban":
             get_data_autoban = Data.get_data(
                 command_value.split("off_")[1], "data_autoban_id"
             )
             for data in get_data_autoban:
-                if data.endswith(command_value.split("off_")[1].split("|")[1]):
+                if data.endswith(command_value.split("off_")[1].split("|")[0]):
                     Data.del_data(data, "data_autoban_id")
             return await _message.reply("Auto banned dimatikan!")
-        elif _message.command[0] == "fsubs":
+        elif command == "fsubs":
             get_data_autoban = Data.get_data(
                 command_value.split("off_")[1], "data_forcesubs_id"
             )
-            print(command_value.split("off_")[1].split("|")[1])
             for data in get_data_autoban:
-                if data.endswith(command_value.split("off_")[1].split("|")[1]):
+                if data.endswith(command_value.split("off_")[1].split("|")[0]):
                     Data.del_data(data, "data_forcesubs_id")
                 return await _message.reply("Forcesubs dimatikan!")
